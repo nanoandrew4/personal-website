@@ -1,0 +1,13 @@
+package nsteg
+
+import (
+    "personal-website/internal"
+)
+
+templ encodedImageFragment(encodedImageName, encodedImage string) {
+    <img title={ encodedImageName } src={ encodedImage } />
+}
+
+templ encodingError(code string) {
+    <p> { internal.Localize(ctx, code) } </p>
+}

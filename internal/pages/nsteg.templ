@@ -1,0 +1,102 @@
+package pages
+
+import (
+    "personal-website/internal"
+    "personal-website/internal/components"
+)
+
+var defaultLsbsToUse = "3"
+
+templ NstegProject() {
+    @components.Head("projects.nsteg.title")
+    <link rel="stylesheet" href={ internal.GetPathWithQueryHash("/assets/css/nsteg.css") } />
+    <script src="/assets/js/htmx.min.js"></script>
+    <body theme="default">
+        @components.Header("projects.nsteg.header-title")
+        <p>
+            { internal.Localize(ctx, "projects.nsteg.intro") }
+        </p>
+
+        <div class="demo-container">
+            <div class="operation-buttons-container">
+                <button name="encode-operation" onclick='showEncodeFragment()'>{ internal.Localize(ctx, "projects.nsteg.encode") }</button>
+                <button name="decode-operation" onclick='showDecodeFragment()'>{ internal.Localize(ctx, "projects.nsteg.decode") }</button>
+            </div>
+
+            <script>
+                function showEncodeFragment() {
+                    document.getElementById('encode-form').style.display = 'flex'
+                    document.getElementById('decode-form').style.display = 'none'
+                }
+
+                function showDecodeFragment() {
+                    document.getElementById('encode-form').style.display = 'none'
+                    document.getElementById('decode-form').style.display = 'flex'
+                }
+            </script>
+
+            <form id="encode-form" class="encode-form" hx-post="/nsteg/encode-image" enctype="multipart/form-data" hx-target="#operationOutput" hx-swap="innerHtml">
+                <div class="lsbs-container">
+                    <label for="lsbs">
+                        { internal.Localize(ctx, "projects.nsteg.lsbs") } (<output id="lsbs-value"> { defaultLsbsToUse } </output>)
+                    </label>
+                    <input id="lsbs" name="lsbsToUse" type="range" min="1" max="8" value={ defaultLsbsToUse } oninput="document.getElementById('lsbs-value').value = this.value"/>
+                </div>
+                <input type="file" id="imageToEncode" name="imageToEncode" accept="image/*" onchange={ handleFileSelect("imageToEncode") }/>
+                <input type="file" name="filesToHide" multiple />
+                <input type="submit" value={ internal.Localize(ctx, "projects.nsteg.encode") } onclick={ showEncodeOperationContainer() } />
+            </form>
+
+            <form id="decode-form" class="decode-form" hx-post="/nsteg/decode-image" enctype="multipart/form-data" hx-target="#operationOutput" hx-swap="innerHtml">
+                <input type="file" id="imageToDecode" name="imageToDecode" accept="image/*" onchange={ handleFileSelect("imageToDecode") }/>
+                <input type="submit" value={ internal.Localize(ctx, "projects.nsteg.decode") } onclick={ showEncodeOperationContainer() } />
+            </form>
+
+            <div id="operation-container" class="operation-container">
+                <output id="imageToProcessPreview" class="image-to-process-preview"/>
+                <!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
+                <svg id="loadingIcon" width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+                    <g fill="none" fill-rule="evenodd">
+                        <g transform="translate(1 1)" stroke-width="2">
+                            <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+                            <path d="M36 18c0-9.94-8.06-18-18-18">
+                                <animateTransform
+                                    attributeName="transform"
+                                    type="rotate"
+                                    from="0 18 18"
+                                    to="360 18 18"
+                                    dur="1s"
+                                    repeatCount="indefinite"/>
+                            </path>
+                        </g>
+                    </g>
+                </svg>
+                <output id="operationOutput" class="operation-output" onchange={ hideLoadingIcon() }/>
+            </div>
+        </div>
+    </body>
+}
+
+script handleFileSelect(id string) {
+    var files = document.getElementById({id}).files;
+    var f = files[0];
+    var reader = new FileReader();
+    reader.onload = (
+        function(theFile) {
+            return function(e) {
+                document.getElementById('imageToProcessPreview').innerHTML = [
+                    '<img src="', e.target.result,'" title="', theFile.name, '" />'
+                ].join(' ');
+            };
+        }
+    )(f);
+    reader.readAsDataURL(f);
+}
+
+script showEncodeOperationContainer() {
+    document.getElementById('loading-icon').style.display = 'block';
+}
+
+script hideLoadingIcon() {
+    document.getElementById('loading-icon').style.display = 'none';
+}

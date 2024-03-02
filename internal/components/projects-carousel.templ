@@ -1,0 +1,27 @@
+package components
+
+import (
+    "personal-website/internal"
+)
+
+templ ProjectsCarousel() {
+    <head>
+        <link rel="stylesheet" href={ internal.GetPathWithQueryHash("/assets/css/projects-carousel.css") }/>
+    </head>
+    <div class="projects-section">
+        <h3>{ internal.Localize(ctx, "projects.header") }</h3>
+        <div class="container">
+            for _, project := range projects {
+            <div class="card">
+                <h3 class="title"> { project.Name } </h3>
+                <p class="description"> { internal.Localize(ctx, project.DescriptionLocaleKey) } </p>
+                <a class="link" href={ templ.URL(project.Link) }> { internal.Localize(ctx, "projects.see-project-details") } </a>
+            </div>
+          }
+        </div>
+        <p class="see-more">
+            { internal.Localize(ctx, "projects.see-more-github") }
+            <a href="https://github.com/nanoandrew4">{ internal.Localize(ctx, "projects.my-github") }</a>
+        </p>
+    </div>
+}

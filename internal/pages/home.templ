@@ -1,0 +1,23 @@
+package pages
+
+import (
+    "personal-website/internal"
+    "personal-website/internal/components"
+)
+
+templ Home() {
+    @components.Head("home.title")
+    <link rel="stylesheet" href="/assets/css/home.css"/>
+    <body theme="default">
+        @components.Header("home.hello-world")
+        <div class="intro">
+            <p>
+                { internal.Localize(ctx, "home.intro") }
+            </p>
+            <a href="/about-me">
+                { internal.Localize(ctx, "home.about-me") }
+            </a>
+        </div>
+        @components.ProjectsCarousel()
+    </body>
+}

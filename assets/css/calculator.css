@@ -1,0 +1,46 @@
+@import url("/assets/css/base.css");
+
+.operation-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 100%;
+
+    textarea {
+        font-family: SpecialElite, serif;
+        text-align: center;
+        text-align: -moz-center;
+        text-align: -webkit-center;
+        width: fit-content;
+        background-color: var(--color-background);
+        border-style: none;
+        border-bottom: 1px solid black;
+        overflow: hidden;
+    }
+}
+
+.operation-result {
+    text-align: center;
+
+    #operation-equals {
+        min-width: 100%;
+    }
+
+    #result {
+        width: 100%;
+    }
+}
+
+.operation-example-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.operation-example {
+    cursor: pointer;
+    width: fit-content;
+    margin: 1vh 0 1vh 0;
+}

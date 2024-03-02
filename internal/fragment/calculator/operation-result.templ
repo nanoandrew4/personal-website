@@ -1,0 +1,20 @@
+package calculator
+
+import (
+    "personal-website/internal"
+)
+
+templ operationResult(result string) {
+    <p class="operation-equals">
+        { internal.Localize(ctx, "projects.calculator.equals") }
+    </p>
+    <p id="result">
+        { result }
+    </p>
+}
+
+templ operationError(err string) {
+    <p id="result">
+        { internal.Localize(ctx, "projects.calculator.operation-error") }
+    </p>
+}

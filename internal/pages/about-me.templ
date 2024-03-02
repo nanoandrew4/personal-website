@@ -1,0 +1,16 @@
+package pages
+
+import (
+    "personal-website/internal"
+    "personal-website/internal/components"
+)
+
+templ AboutMe() {
+    @components.Head("about-me.title")
+    <link rel="stylesheet" href="/assets/css/about-me.css"/>
+    <body theme="default">
+        @components.Header("whoami")
+        { internal.Localize(ctx, "about-me.intro") }
+        //@components.ProjectsCarousel()
+    </body>
+}

@@ -1,0 +1,16 @@
+package nsteg
+
+import (
+    "personal-website/internal"
+    "personal-website/internal/rest/api/nsteg"
+)
+
+templ decodedFiles(files []*nsteg.File) {
+    for _, file := range files {
+        <a download={ file.Name } href={ templ.SafeURL(file.Content) }>{ file.Name }</a>
+    }
+}
+
+templ decodingError(code string) {
+    <p> { internal.Localize(ctx, code) } </p>
+}

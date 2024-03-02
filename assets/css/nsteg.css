@@ -1,0 +1,52 @@
+@import url("/assets/css/base.css");
+
+.demo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.operation-buttons-container {
+    flex-direction: row;
+    margin: 1vw;
+}
+
+.encode-form, .decode-form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.decode-form {
+    display: none;
+}
+
+.lsbs-container {
+    flex-direction: row;
+    input {
+        margin: 0;
+    }
+}
+
+.image-to-encode-preview {
+    img {
+        width: 100%;
+    }
+}
+
+.encoding-operation-container {
+    flex-direction: column;
+}
+
+#loading-icon {
+    display: none;
+}
+
+.encoded-image {
+    img {
+        width: 100%;
+    }
+}
